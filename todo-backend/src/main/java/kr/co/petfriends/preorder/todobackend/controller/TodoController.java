@@ -3,11 +3,9 @@ package kr.co.petfriends.preorder.todobackend.controller;
 import kr.co.petfriends.preorder.todobackend.data.Todo;
 import kr.co.petfriends.preorder.todobackend.service.TodoService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @AllArgsConstructor
