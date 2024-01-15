@@ -3,13 +3,15 @@ import { onMounted, ref } from 'vue';
 
 import TodoItem from './components/TodoItem/TodoItem.vue';
 import http from './http/http.ts';
-import { Todo } from './interface';
+import { Todo, TodoListResponse, TodoStatus } from './interface';
 
 const content = ref('');
 const todos = ref<Todo[]>([]);
 
 const getTodos = async () => {
-  todos.value = (await http.get<Todo[]>('/todos'))?.data ?? [];
+  const res = (await http.get<TodoListResponse>('/todos'))?.data;
+  const { todoList } = res?._embedded ?? {};
+  todos.value = todoList ?? [];
 };
 
 onMounted(() => {
@@ -18,7 +20,7 @@ onMounted(() => {
 
 const onSubmit = async () => {
   if (!content.value) return;
-  await http.post('/todo', { content: content.value });
+  await http.post<Todo, Todo>('/todo', { content: content.value, status: TodoStatus.TODO });
   await getTodos();
   content.value = '';
 };
